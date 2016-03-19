@@ -16,44 +16,77 @@ Add following dependency in build.gradle
 ##SkaleHelper
 * ####Constructor
 
-  mSkaleHelper = new SkaleHelper(this);
+    mSkaleHelper = new SkaleHelper(this);
 
 * ####Listener
+
     mSkaleHelper.setListener(new SkaleHelper.Listener() {
             @Override
             public void onButtonClicked(int id) {
-
+                // invoked when button on Skale is clicked
+                // 1: circle button
+                // 2: square button
             }
 
             @Override
             public void onWeightUpdate(float weight) {
-
+                // invoked when weight value notified from skale
+                // unit of gram.
             }
 
             @Override
             public void onBindRequest() {
-
+                // if new skale was found, SkaleHelper will auto request bind.
+                // this callback will be invoked.
             }
 
             @Override
             public void onBond() {
-
+                // invoked when pairing completed.
             }
 
             @Override
             public void onConnectResult(boolean success) {
-
+                // invoked when connection task done
             }
 
             @Override
             public void onDisconnected() {
-
+                // invoked when skale disconnected
             }
 
             @Override
             public void onBatteryLevelUpdate(int level) {
-
+                // invoked after request battery level
             }
         });
+
+* ####Permission
+For android M, app have to request bluetooth permission at run time. Check if application has permission with
+
+    SkaleHelper.requestBluetoothPermission(this, REQUEST_BT_PERMISSION);
+    
+and implement onRequestPermissionsResult() as following in AppCompatActivity
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+
+        if (requestCode == REQUEST_BT_PERMISSION) {
+
+            boolean result = SkaleHelper.checkPermissionRequest(requestCode, permissions, grantResults);
+
+            if(result){
+                mSkaleHelper.resume();
+            }else{
+                Toast.makeText(this, "No bluetooth permission", Toast.LENGTH_SHORT).show();
+            }
+
+            // END_INCLUDE(permission_result)
+
+        } else {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
 
 # SkaleKitAndroid

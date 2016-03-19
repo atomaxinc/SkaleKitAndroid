@@ -8,5 +8,11 @@ SkaleKit is a SDK to utilize Skale. It contain searching, connecting, and some b
 
 #How to use SkaleKit?
 
+###Setup
+Add following dependency in build.gradle
+  compile 'com.atomaxinc.android.skale:skale-utilities:0.1.0'
+
+###SkaleHelper
+new SkaleHelper(this);
 
 # SkaleKitAndroid

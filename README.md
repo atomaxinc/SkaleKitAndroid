@@ -60,6 +60,11 @@ Add following dependency in build.gradle
                 // invoked after request battery level
             }
         });
+        
+* Tare 
+Call tare() when you would like to set skale weight to 0g.
+
+    mSkaleHelper.tare();
 
 * ####Permission
 For android M, app have to request bluetooth permission at run time. Check if application has permission with

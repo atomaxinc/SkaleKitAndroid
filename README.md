@@ -72,21 +72,19 @@ For android M, app have to request bluetooth permission at run time. Check if ap
         public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
 
-        if (requestCode == REQUEST_BT_PERMISSION) {
+            if (requestCode == REQUEST_BT_PERMISSION) {
 
-            boolean result = SkaleHelper.checkPermissionRequest(requestCode, permissions, grantResults);
+                boolean result = SkaleHelper.checkPermissionRequest(requestCode, permissions, grantResults);
 
-            if(result){
-                mSkaleHelper.resume();
-            }else{
-                Toast.makeText(this, "No bluetooth permission", Toast.LENGTH_SHORT).show();
+                if(result){
+                    mSkaleHelper.resume();
+                }else{
+                    Toast.makeText(this, "No bluetooth permission", Toast.LENGTH_SHORT).show();
+                }
+
+                // END_INCLUDE(permission_result)
+
+            } else {
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
             }
-
-            // END_INCLUDE(permission_result)
-
-        } else {
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
-        }
-
-# SkaleKitAndroid

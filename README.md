@@ -66,7 +66,7 @@ For android M, app have to request bluetooth permission at run time. Check if ap
 
     `SkaleHelper.requestBluetoothPermission(this, REQUEST_BT_PERMISSION);`
     
-and implement onRequestPermissionsResult() as following in AppCompatActivity
+  and implement onRequestPermissionsResult() as following in AppCompatActivity
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,

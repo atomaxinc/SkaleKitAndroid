@@ -15,11 +15,12 @@ Add following dependency in build.gradle
 
 ##SkaleHelper
 *Construct
+
 `mSkaleHelper = new SkaleHelper(this);`
 
 *Listener
-`
-mSkaleHelper.setListener(new SkaleHelper.Listener() {
+
+`mSkaleHelper.setListener(new SkaleHelper.Listener() {
             @Override
             public void onButtonClicked(int id) {
                 
@@ -54,6 +55,6 @@ mSkaleHelper.setListener(new SkaleHelper.Listener() {
             public void onBatteryLevelUpdate(int level) {
 
             }
-        });
-`
+        });`
+
 # SkaleKitAndroid

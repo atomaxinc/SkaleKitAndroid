@@ -64,7 +64,7 @@ Add following dependency in build.gradle
 * ####Permission
 For android M, app have to request bluetooth permission at run time. Check if application has permission with
 
-    SkaleHelper.requestBluetoothPermission(this, REQUEST_BT_PERMISSION);
+    `SkaleHelper.requestBluetoothPermission(this, REQUEST_BT_PERMISSION);`
     
 and implement onRequestPermissionsResult() as following in AppCompatActivity
 

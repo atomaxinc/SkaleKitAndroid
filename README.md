@@ -20,7 +20,7 @@ Add following dependency in build.gradle
 
 * ####Listener
 
-    mSkaleHelper.setListener(new SkaleHelper.Listener() {
+        mSkaleHelper.setListener(new SkaleHelper.Listener() {
             @Override
             public void onButtonClicked(int id) {
                 // invoked when button on Skale is clicked
@@ -68,8 +68,8 @@ For android M, app have to request bluetooth permission at run time. Check if ap
     
   and implement onRequestPermissionsResult() as following in AppCompatActivity
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+        @Override
+        public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
 
         if (requestCode == REQUEST_BT_PERMISSION) {
@@ -87,6 +87,6 @@ For android M, app have to request bluetooth permission at run time. Check if ap
         } else {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
-    }
+        }
 
 # SkaleKitAndroid

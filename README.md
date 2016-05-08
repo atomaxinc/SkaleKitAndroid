@@ -16,7 +16,7 @@ You can download aar file from jcenter by adding following dependency in build.g
 ##SkaleHelper
 * ####Constructor
 
-    mSkaleHelper = new SkaleHelper(this);
+    mSkaleHelper = new SkaleHelper(context);
 
 * ####Listener
 

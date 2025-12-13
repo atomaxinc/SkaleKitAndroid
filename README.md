@@ -1,95 +1,129 @@
-#What is Skale?
-Skale is a bluetooth electronic kitchen scale, which provides bluetooth connectivity. You can connect Skale with your iPhone or android device, and get the weight value from it. 
+# SkaleKit Android SDK
 
-You can know more detail from [official website](https://www.skale.cc/). 
+Bluetooth SDK for Skale scales.
 
-#What is SkaleKit?
-SkaleKit is a SDK to utilize Skale. It contain searching, connecting, and some basic function for an electronic scale.
+## Requirements
 
-#How to use SkaleKit?
+- Android 5.0 (API 21) or higher
+- Bluetooth Low Energy (BLE) support
 
-##Setup
-You can download aar file from jcenter by adding following dependency in build.gradle.
+## Installation
 
-    compile 'com.atomaxinc.android.skale:skale-utilities:0.1.0@aar'
+### Download AAR
 
-##SkaleHelper
-* ####Constructor
+Download the latest AAR from the [`releases`](releases/) folder and add to your project's `libs` directory.
 
-    mSkaleHelper = new SkaleHelper(context);
+Then add to your `build.gradle.kts`:
 
-* ####Listener
+```kotlin
+dependencies {
+    implementation(files("libs/skalekit-1.0.0.aar"))
+}
+```
 
-        mSkaleHelper.setListener(new SkaleHelper.Listener() {
-            @Override
-            public void onButtonClicked(int id) {
-                // invoked when button on Skale is clicked
-                // 1: circle button
-                // 2: square button
-            }
+## Permissions
 
-            @Override
-            public void onWeightUpdate(float weight) {
-                // invoked when weight value notified from skale
-                // unit of gram.
-            }
+The SDK requires Bluetooth permissions. Add to your `AndroidManifest.xml`:
 
-            @Override
-            public void onBindRequest() {
-                // if new skale was found, SkaleHelper will auto request bind.
-                // this callback will be invoked.
-            }
+```xml
+<!-- For Android 11 and below -->
+<uses-permission android:name="android.permission.BLUETOOTH" android:maxSdkVersion="30" />
+<uses-permission android:name="android.permission.BLUETOOTH_ADMIN" android:maxSdkVersion="30" />
+<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" android:maxSdkVersion="30" />
 
-            @Override
-            public void onBond() {
-                // invoked when pairing completed.
-            }
+<!-- For Android 12+ -->
+<uses-permission android:name="android.permission.BLUETOOTH_SCAN" android:usesPermissionFlags="neverForLocation" />
+<uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
 
-            @Override
-            public void onConnectResult(boolean success) {
-                // invoked when connection task done
-            }
+<uses-feature android:name="android.hardware.bluetooth_le" android:required="true" />
+```
 
-            @Override
-            public void onDisconnected() {
-                // invoked when skale disconnected
-            }
+## Usage
 
-            @Override
-            public void onBatteryLevelUpdate(int level) {
-                // invoked after request battery level
-            }
-        });
-        
-* Tare 
-Call tare() when you would like to set skale weight to 0g.
+### Initialize
 
-    `mSkaleHelper.tare();`
+```kotlin
+val skaleKit = SkaleKit(context)
+skaleKit.setListener(object : SkaleKit.SkaleListener {
+    override fun onConnectionStateChanged(state: SkaleKit.ConnectionState) {
+        // Handle connection state
+    }
 
-* ####Permission
-For android M, app have to request bluetooth permission at run time. Check if application has permission with
+    override fun onWeightUpdate(weight: Float) {
+        // Weight in grams
+    }
 
-    `SkaleHelper.requestBluetoothPermission(this, REQUEST_BT_PERMISSION);`
-    
-  and implement onRequestPermissionsResult() as following in AppCompatActivity
+    override fun onButtonClicked(buttonId: Int) {
+        // 1 = circle button, 2 = square button
+    }
 
-        @Override
-        public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
+    override fun onBatteryLevelUpdate(level: Int) {
+        // Battery percentage
+    }
 
-            if (requestCode == REQUEST_BT_PERMISSION) {
+    override fun onError(error: SkaleKit.SkaleError) {
+        // Handle error
+    }
+})
+```
 
-                boolean result = SkaleHelper.checkPermissionRequest(requestCode, permissions, grantResults);
+### Check Permissions
 
-                if(result){
-                    mSkaleHelper.resume();
-                }else{
-                    Toast.makeText(this, "No bluetooth permission", Toast.LENGTH_SHORT).show();
-                }
+```kotlin
+// Check if permissions are granted
+if (!SkaleKit.hasPermissions(context)) {
+    val permissions = SkaleKit.getRequiredPermissions()
+    // Request permissions
+}
+```
 
-                // END_INCLUDE(permission_result)
+### Connect
 
-            } else {
-                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-            }
-        }
+```kotlin
+// Auto-scan and connect to first Skale found
+skaleKit.startScan()
+
+// Or use device picker
+val picker = SkaleDevicePicker(context, skaleKit)
+picker.show(object : SkaleDevicePicker.OnDeviceSelectedListener {
+    override fun onDeviceSelected(device: BluetoothDevice) {
+        skaleKit.connect(device)
+    }
+
+    override fun onCancelled() {
+        // User cancelled
+    }
+})
+```
+
+### Tare
+
+```kotlin
+skaleKit.tare()
+```
+
+### Request Battery Level
+
+```kotlin
+skaleKit.requestBatteryLevel()
+```
+
+### Disconnect
+
+```kotlin
+skaleKit.disconnect()
+```
+
+## Example App
+
+See the `example` module for a complete implementation.
+
+## Author
+
+Atomax Inc. - service@atomaxinc.com
+
+Any feedback is welcomed! Please send feedback to service@atomaxinc.com
+
+## License
+
+MIT License - see [LICENSE](LICENSE) for details.

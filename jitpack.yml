@@ -1,0 +1,6 @@
+jdk:
+  - openjdk17
+before_install:
+  - echo "SkaleKit Android SDK"
+install:
+  - ./gradlew :skalekit:publish
